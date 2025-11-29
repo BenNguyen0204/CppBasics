@@ -416,3 +416,225 @@
 
 - Compile:
     g++ main.cpp Player.cpp -o game
+
+## 14. Operators & Boolean Logic
+
+- Arithmetic: `+  -  *  /  %`
+- Assignment: `=  +=  -=  *=  /=  %=`
+- Comparison: `==  !=  <  >  <=  >=`
+- Logical: `&&  ||  !`
+- Increment: `++  --`
+- Ternary:
+    ```cpp
+    int minVal = (a < b) ? a : b;
+    ```
+
+- Boolean expressions:
+    ```cpp
+    bool isAdult      = (age >= 18);
+    bool isEqualFive  = (x == 5);
+    bool notFive      = (x != 5);
+
+    bool adultAndRich  = (age >= 18 && money > 1000);
+    bool childOrSenior = (age < 18 || age >= 65);
+    bool notAdult      = !(age >= 18);
+    ```
+
+---
+
+## 15. More on Loops
+
+- `while` (condition checked before each iteration):
+    ```cpp
+    int i = 0;
+    while (i < 5) {
+        cout << i << " ";
+        i++;
+    }
+    ```
+
+- `do-while` (runs at least once):
+    ```cpp
+    int val;
+    do {
+        cin >> val;
+    } while (val <= 0);
+    ```
+
+- Classic `for` (known count):
+    ```cpp
+    for (int i = 0; i < 5; i++) {
+        cout << i << " ";
+    }
+    ```
+
+- Range-based `for` (for-each style):
+    ```cpp
+    int arr[] = {1, 2, 3};
+    for (int x : arr) {
+        cout << x << " ";
+    }
+    ```
+
+- `break` and `continue`:
+    ```cpp
+    while (true) {
+        int v;
+        cin >> v;
+
+        if (v < 0) break;     // exit the loop
+        if (v == 0) continue; // skip rest, go to next iteration
+
+        // process v...
+    }
+    ```
+
+---
+
+## 16. Function Parameters & Prototypes
+
+- Pass by value (copy):
+    ```cpp
+    void incVal(int x) { 
+        x++; // caller not changed
+    }
+    ```
+
+- Pass by reference:
+    ```cpp
+    void incRef(int &x) {
+        x++; // caller variable changes
+    }
+    ```
+
+- `const` reference (read-only, avoids copy):
+    ```cpp
+    void printName(const string& name) {
+        cout << name << "\n";
+    }
+    ```
+
+- Function prototype:
+    ```cpp
+    int mul(int x, int y);   // declaration (prototype)
+
+    int main() {
+        int r = mul(2, 3);
+    }
+
+    int mul(int x, int y) {  // definition
+        return x * y;
+    }
+    ```
+
+---
+
+## 17. Scope (Global vs Local)
+
+- Global variable: defined outside all functions
+- Local variable: defined inside a function or block
+
+```cpp
+int gvar = 10;   // global
+
+void foo() {
+    int local = 5;   // only visible inside foo()
+}
+Inner scopes can see outer variables, but not the other way around.
+
+## 18. Pointer Tricks (Array + Pointer)
+You already know basic pointers. Common array pattern:
+
+cpp
+Copy code
+int arr[3] = {4, 1, 5};
+
+// Pointer walking through array
+for (int *p = arr; p < arr + 3; p++) {
+    cout << *p << " ";
+}
+
+## 19. const Correctness
+cpp
+Copy code
+void foo(const int x);   // x not modified
+void bar(int& x);        // x may change
+void baz(const int& x);  // reference but read-only
+In classes:
+
+cpp
+Copy code
+class Sample {
+    int value;
+public:
+    int get() const { return value; } // does not modify object
+    void set(int v) { value = v; }    // may modify object
+};
+Use const wherever something should not be changed (helps avoid bugs).
+
+## 20. Enums
+Basic enum:
+
+cpp
+Copy code
+enum Color { RED, GREEN, BLUE };
+
+Color c = RED;
+Scoped enum (recommended):
+
+cpp
+Copy code
+enum class Direction { Up, Down, Left, Right };
+
+Direction dir = Direction::Up;
+
+## 21. Random Numbers (classic C-style)
+cpp
+Copy code
+#include <cstdlib> // rand, srand
+#include <ctime>   // time
+
+int main() {
+    srand(time(nullptr));           // seed once
+
+    int r1to6   = rand() % 6 + 1;   // 1–6
+    int r1to100 = rand() % 100 + 1; // 1–100
+}
+(For serious projects, modern C++ prefers <random>, but this is enough early on.)
+
+## 22. Namespaces
+cpp
+Copy code
+namespace mathStuff {
+    int square(int x) { return x * x; }
+}
+
+int main() {
+    int s = mathStuff::square(5);  // 25
+}
+Avoid using namespace std; in headers; ok in small .cpp files when learning.
+
+## 23. Templates (Basic)
+cpp
+Copy code
+template <typename T>
+T myMax(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+int   m1 = myMax(3, 7);        // T = int
+double m2 = myMax(2.5, 1.3);   // T = double
+Templates let you write one function that works for many types.
+
+## 24. Recursion (Example)
+cpp
+Copy code
+int fact(int n) {
+    if (n <= 1) return 1;      // base case
+    return n * fact(n - 1);    // recursive case
+}
+Rules of thumb:
+
+Must have a base case that stops.
+
+Each call should simplify the problem and move toward the base case.
